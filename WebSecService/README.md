@@ -1,61 +1,222 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# WebSec Service - نظام إدارة الطلاب والامتحانات
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## نظرة عامة
+نظام متكامل لإدارة الطلاب والامتحانات والدرجات مع نظام صلاحيات متقدم يعتمد على الأدوار والصلاحيات.
 
-## About Laravel
+## المميزات الرئيسية
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+### 🔐 نظام الصلاحيات والأدوار
+- **نظام أدوار متقدم**: مدير عام، مدير، معلم، طالب، موظف
+- **صلاحيات مفصلة**: عرض، إنشاء، تعديل، حذف، إدارة لكل وحدة
+- **middleware للصلاحيات**: حماية المسارات حسب الصلاحيات
+- **trait للصلاحيات**: سهولة استخدام في النماذج
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+### 👥 إدارة المستخدمين
+- تسجيل دخول آمن مع أسئلة أمنية
+- إدارة الحسابات (نشط، معلق، محظور)
+- تتبع آخر تسجيل دخول
+- حذف ناعم (Soft Delete)
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### 🎓 إدارة الطلاب
+- معلومات شاملة عن الطلاب
+- حساب GPA تلقائي
+- إدارة الدرجات والساعات المعتمدة
+- تقارير مفصلة
 
-## Learning Laravel
+### 📝 إدارة الامتحانات
+- إنشاء وإدارة الامتحانات
+- أسئلة متعددة الخيارات
+- توقيت محدد للامتحانات
+- تتبع محاولات الامتحان
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 📊 إدارة الدرجات
+- تسجيل الدرجات تلقائي
+- حساب النقاط والساعات المعتمدة
+- تقارير أداء الطلاب
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## التثبيت والإعداد
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+### المتطلبات
+- PHP 8.2+
+- Laravel 12.0+
+- SQLite/MySQL/PostgreSQL
 
-## Laravel Sponsors
+### خطوات التثبيت
+```bash
+# استنساخ المشروع
+git clone [repository-url]
+cd WebSecService
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# تثبيت التبعيات
+composer install
+npm install
 
-### Premium Partners
+# نسخ ملف البيئة
+cp .env.example .env
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# إنشاء مفتاح التطبيق
+php artisan key:generate
 
-## Contributing
+# تشغيل الـ migrations
+php artisan migrate
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+# تشغيل الـ seeders
+php artisan db:seed --class=RolesAndPermissionsSeeder
 
-## Code of Conduct
+# بناء الأصول
+npm run build
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+# تشغيل الخادم
+php artisan serve
+```
 
-## Security Vulnerabilities
+## هيكل النظام
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### النماذج (Models)
+- **User**: المستخدمون مع نظام الصلاحيات
+- **Role**: الأدوار في النظام
+- **Permission**: الصلاحيات المتاحة
+- **Student**: معلومات الطلاب
+- **Exam**: الامتحانات
+- **Question**: الأسئلة
+- **Grade**: الدرجات
 
-## License
+### Middleware
+- **SecurityHeaders**: رؤوس الأمان
+- **UpdateLastLogin**: تحديث آخر تسجيل دخول
+- **CheckPermission**: التحقق من الصلاحيات
+- **CheckRole**: التحقق من الأدوار
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+### Traits
+- **HasPermissions**: trait للصلاحيات
+
+### Helper Functions
+- `has_permission($permission)`: التحقق من صلاحية
+- `can($action, $module)`: التحقق من صلاحية في وحدة
+- `has_role($role)`: التحقق من دور
+- `is_admin()`, `is_teacher()`, `is_student()`, `is_staff()`: التحقق من نوع المستخدم
+
+## استخدام نظام الصلاحيات
+
+### في Controllers
+```php
+public function index()
+{
+    if (!auth()->user()->can('view', 'students')) {
+        abort(403, 'غير مصرح لك بالوصول');
+    }
+    
+    $students = Student::all();
+    return view('students.index', compact('students'));
+}
+```
+
+### في Routes
+```php
+Route::middleware(['auth', 'permission:students.manage'])->group(function () {
+    Route::resource('students', StudentController::class);
+});
+```
+
+### في Blade Views
+```php
+@if(has_permission('students.create'))
+    <a href="{{ route('students.create') }}" class="btn btn-primary">إضافة طالب</a>
+@endif
+
+@if(can('edit', 'students'))
+    <a href="{{ route('students.edit', $student) }}" class="btn btn-warning">تعديل</a>
+@endif
+```
+
+### في Middleware
+```php
+Route::middleware(['auth', 'role:teacher'])->group(function () {
+    Route::get('/dashboard', [TeacherController::class, 'dashboard']);
+});
+```
+
+## الأدوار والصلاحيات
+
+### المدير العام (Super Admin)
+- جميع الصلاحيات في النظام
+- إدارة الأدوار والصلاحيات
+- إدارة جميع المستخدمين
+
+### المدير (Admin)
+- إدارة المستخدمين (عدا الأدوار والصلاحيات)
+- إدارة الطلاب والامتحانات والدرجات
+- إدارة الأسئلة
+
+### المعلم (Teacher)
+- إدارة الطلاب المسندين إليه
+- إنشاء وإدارة الامتحانات
+- تسجيل الدرجات
+- إدارة الأسئلة
+
+### الطالب (Student)
+- عرض الامتحانات المتاحة
+- عرض درجاته
+- لا يمكنه التعديل أو الحذف
+
+### الموظف (Staff)
+- عرض الطلاب والدرجات والامتحانات
+- صلاحيات محدودة للقراءة فقط
+
+## الأمان
+
+### ميزات الأمان
+- تشفير كلمات المرور
+- أسئلة أمنية لاستعادة الحساب
+- middleware لحماية المسارات
+- تحقق من الصلاحيات في كل مستوى
+- رؤوس أمان متقدمة
+
+### أفضل الممارسات
+- استخدام middleware للصلاحيات
+- التحقق من الصلاحيات في Controllers
+- استخدام helper functions في Views
+- عدم عرض أزرار غير مصرح بها
+
+## التطوير
+
+### إضافة صلاحية جديدة
+1. إضافة الصلاحية في `RolesAndPermissionsSeeder`
+2. تشغيل الـ seeder
+3. استخدام الصلاحية في الكود
+
+### إضافة دور جديد
+1. إضافة الدور في `RolesAndPermissionsSeeder`
+2. ربط الصلاحيات المناسبة
+3. تشغيل الـ seeder
+
+### إضافة middleware جديد
+1. إنشاء middleware جديد
+2. إضافته في `bootstrap/app.php`
+3. استخدامه في المسارات
+
+## الاختبار
+
+```bash
+# تشغيل الاختبارات
+php artisan test
+
+# تشغيل اختبارات محددة
+php artisan test --filter=UserTest
+```
+
+## المساهمة
+
+1. Fork المشروع
+2. إنشاء branch للميزة الجديدة
+3. Commit التغييرات
+4. Push إلى الـ branch
+5. إنشاء Pull Request
+
+## الترخيص
+
+هذا المشروع مرخص تحت رخصة MIT.
+
+## الدعم
+
+للمساعدة والدعم، يرجى فتح issue في GitHub أو التواصل مع فريق التطوير.

@@ -35,4 +35,17 @@ return [
         ],
     ],
 
+    'microsoft' => [
+    'client_id' => env('MICROSOFT_CLIENT_ID'),
+    'client_secret' => env('MICROSOFT_CLIENT_SECRET'),
+    'redirect' => env('MICROSOFT_REDIRECT', 'http://localhost:8000/oauth/microsoft/callback'),
+    ],
+
+
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+        'client_secret' => env('GOOGLE_CLIENT_SECRET'),
+        'redirect' => 'http://localhost:8000/oauth/google/callback',
+    ],
+
 ];
